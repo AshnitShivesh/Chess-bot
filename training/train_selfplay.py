@@ -28,8 +28,11 @@ import torch.nn.functional as F
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
-from model import ChessGladiatorNet
-from representation import board_to_tensor, move_to_index, index_to_move
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from src.model import ChessGladiatorNet
+from src.representation import board_to_tensor, move_to_index, index_to_move
 
 
 class Experience:
@@ -136,7 +139,10 @@ def train_path_b_selfplay(
     print(f"{'='*75}\n")
 
     model = ChessGladiatorNet()
-    champ_path = os.path.join(save_dir, "champion.pt")
+    weights_dir = os.path.join(save_dir, "weights") if os.path.isdir(os.path.join(save_dir, "weights")) else save_dir
+    champ_path = os.path.join(weights_dir, "champion.pt")
+    if not os.path.exists(champ_path):
+        champ_path = os.path.join(save_dir, "champion.pt")
 
     if os.path.exists(champ_path):
         try:

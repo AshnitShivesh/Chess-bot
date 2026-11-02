@@ -77,17 +77,34 @@ Board State -> Canonical (13, 8, 8) Float Tensor
 
 ## File Structure
 
-- `server.py`: Lightweight zero-dependency HTTP server bridging `champion.pt` + `search.py` to the browser.
-- `web/`: Retro arcade pixel-art frontend (`index.html`, `style.css`, `app.js`) with 8-bit audio and telemetry.
-- `representation.py`: Board-to-tensor conversion (canonical perspective) and move indexing.
-- `model.py`: Spatial ConvNet architecture with Policy, Promotion, and Value heads.
-- `search.py`: Alpha-Beta search with root caching, MVV-LVA move ordering, and quiescence search.
-- `train_rl.py`: Supervised policy learning via multi-action cross-entropy backpropagation.
-- `train_selfplay.py`: AlphaZero-style self-play reinforcement learning loop.
-- `benchmark.py`: Tactical benchmark suite testing checkmates, forks, and material defense.
-- `play.py`: CLI interface for human vs AI matches and spectator duels.
-- `arena.py` & `evolution.py`: Phase 1 evolutionary tournament modules.
-- `test_all.py`: Unit test suite covering all modules.
+```
+chess-neural-network/
+├── src/                         # Core chess neural network & search package
+│   ├── __init__.py
+│   ├── model.py                 # Neural network architecture (Policy + Promo + Value heads)
+│   ├── representation.py        # 13x8x8 board encoding with canonical perspective
+│   └── search.py                # Alpha-Beta search, quiescence, root caching
+├── training/                    # RL and evolution training pipelines
+│   ├── __init__.py
+│   ├── train_rl.py              # Policy gradient backpropagation trainer
+│   ├── train_selfplay.py        # AlphaZero-style self-play RL loop
+│   ├── evolution.py             # Phase 1 genetic algorithm & mutation engine
+│   └── arena.py                 # Tournament matchmaking & survival selection
+├── weights/                     # Pre-trained model weights
+│   └── champion.pt              # 99.6% trained neural network weights
+├── web/                         # Interactive retro-arcade frontend
+│   ├── index.html               # Semantic arcade layout & CRT scanline overlay
+│   ├── style.css                # Pixel-art CSS styling
+│   └── app.js                   # Interactive board, 8-bit Web Audio synth, offline AI
+├── tests/                       # Verification & benchmarks
+│   ├── __init__.py
+│   ├── test_all.py              # Full unit test suite (7 tests)
+│   └── benchmark.py             # Tactical puzzle benchmark suite (checkmates, forks, defense)
+├── play.py                      # CLI game entrypoint (Human vs AI, AI vs AI)
+├── server.py                    # Web GUI server entrypoint (Zero-dependency HTTP server)
+├── requirements.txt             # Minimal pip requirements (torch, python-chess, numpy)
+└── README.md                    # Project documentation & architecture guide
+```
 
 ---
 
@@ -114,20 +131,20 @@ Open **[http://localhost:8000](http://localhost:8000)** in any browser.
 
 ### 2. Play in the Terminal (CLI)
 ```bash
-python play.py --mode human-white --depth 3 --weights champion.pt
+python play.py --mode human-white --depth 3
 ```
 
-### Run Tactical Benchmarks
+### 3. Run Tactical Benchmarks
 ```bash
-python benchmark.py --depth 3
+python tests/benchmark.py --depth 3
 ```
 
-### Run Self-Play Training
+### 4. Run Self-Play Training
 ```bash
-python train_selfplay.py --iters 30 --games 4
+python training/train_selfplay.py --iters 30 --games 4
 ```
 
-### Run Unit Tests
+### 5. Run Unit Tests
 ```bash
-python test_all.py
+python tests/test_all.py
 ```

@@ -11,12 +11,16 @@ Tests your trained Neural Network and Search Engine on 5 classic chess puzzles:
 Reports an objective Tactical Accuracy (%) and benchmark grade.
 """
 
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from dataclasses import dataclass
 from typing import List
 import chess
 
-from model import ChessGladiatorNet
-from play import load_model, get_ai_move_with_search
+from src.model import ChessGladiatorNet
+from play import load_model, get_ai_move_with_search, DEFAULT_WEIGHTS
 
 
 @dataclass
@@ -106,7 +110,7 @@ def run_benchmark(weights_path: str = "champion.pt", search_depth: int = 3):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weights", default="champion.pt")
+    parser.add_argument("--weights", default=DEFAULT_WEIGHTS)
     parser.add_argument("--depth", type=int, default=3)
     args = parser.parse_args()
 

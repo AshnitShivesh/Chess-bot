@@ -12,8 +12,12 @@ from typing import Optional, Dict
 import chess
 import torch
 
-from representation import board_to_tensor, index_to_move, move_to_index
-from model import ChessGladiatorNet
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from src.representation import board_to_tensor, index_to_move, move_to_index
+from src.model import ChessGladiatorNet
 
 
 PIECE_VALUES: Dict[chess.PieceType, float] = {

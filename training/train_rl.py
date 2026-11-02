@@ -22,8 +22,11 @@ import torch.nn.functional as F
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
-from model import ChessGladiatorNet
-from representation import board_to_tensor, move_to_index, index_to_move
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from src.model import ChessGladiatorNet
+from src.representation import board_to_tensor, move_to_index, index_to_move
 
 
 def get_legal_target_distribution(board: chess.Board) -> Tuple[torch.Tensor, List[int]]:
@@ -181,7 +184,10 @@ def train_gradient_retention(
     model = ChessGladiatorNet()
 
     # Load existing champion to continue training from where it left off
-    champ_path = os.path.join(save_dir, "champion.pt")
+    weights_dir = os.path.join(save_dir, "weights") if os.path.isdir(os.path.join(save_dir, "weights")) else save_dir
+    champ_path = os.path.join(weights_dir, "champion.pt")
+    if not os.path.exists(champ_path):
+        champ_path = os.path.join(save_dir, "champion.pt")
     if os.path.exists(champ_path):
         try:
             model.load_state_dict(torch.load(champ_path, map_location="cpu"))

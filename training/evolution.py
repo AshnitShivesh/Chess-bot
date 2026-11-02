@@ -20,8 +20,14 @@ import argparse
 from typing import List, Dict, Any
 import torch
 
-from model import ChessGladiatorNet
-from arena import play_match
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from src.model import ChessGladiatorNet
+try:
+    from .arena import play_match
+except ImportError:
+    from arena import play_match
 
 
 class GladiatorEvolution:

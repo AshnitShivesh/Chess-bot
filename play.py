@@ -14,9 +14,13 @@ from typing import Tuple, Optional
 import chess
 import torch
 
-from model import ChessGladiatorNet
-from representation import board_to_tensor, index_to_move, move_to_index
-from search import search_best_move
+from src.model import ChessGladiatorNet
+from src.representation import board_to_tensor, index_to_move, move_to_index
+from src.search import search_best_move
+
+DEFAULT_WEIGHTS = os.path.join(os.path.dirname(__file__), "weights", "champion.pt")
+if not os.path.exists(DEFAULT_WEIGHTS):
+    DEFAULT_WEIGHTS = "champion.pt"
 
 
 UNICODE_PIECES = {
@@ -44,7 +48,7 @@ def render_board(board: chess.Board):
     print("    a   b   c   d   e   f   g   h\n")
 
 
-def load_model(weights_path: str = "champion.pt") -> ChessGladiatorNet:
+def load_model(weights_path: str = DEFAULT_WEIGHTS) -> ChessGladiatorNet:
     """Loads a ChessGladiatorNet from file if it exists, otherwise returns a fresh model."""
     net = ChessGladiatorNet()
     if os.path.exists(weights_path):
@@ -159,7 +163,7 @@ def play_spectator_match(model_path: str, depth: int = 2, delay_sec: float = 0.5
 def main():
     parser = argparse.ArgumentParser(description="Play against or watch the Search-Guided Chess AI")
     parser.add_argument("--mode", choices=["human-white", "human-black", "spectate"], default="human-white")
-    parser.add_argument("--weights", type=str, default="champion.pt")
+    parser.add_argument("--weights", type=str, default=DEFAULT_WEIGHTS)
     parser.add_argument("--depth", type=int, default=3, help="Lookahead search depth (default: 3)")
     parser.add_argument("--speed", type=float, default=0.4, help="Seconds between moves in spectate mode")
     args = parser.parse_args()

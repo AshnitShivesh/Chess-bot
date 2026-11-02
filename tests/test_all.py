@@ -10,15 +10,19 @@ Validates:
 6. Path B Self-Play reinforcement learning game generation.
 """
 
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import unittest
 import chess
 import torch
 
-from representation import board_to_tensor, move_to_index, index_to_move
-from model import ChessGladiatorNet
-from train_rl import get_legal_target_distribution
-from search import search_best_move
-from train_selfplay import play_fast_selfplay_game
+from src.representation import board_to_tensor, move_to_index, index_to_move
+from src.model import ChessGladiatorNet
+from src.search import search_best_move
+from training.train_rl import get_legal_target_distribution
+from training.train_selfplay import play_fast_selfplay_game
 
 
 class TestGladiatorSystem(unittest.TestCase):

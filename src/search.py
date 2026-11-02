@@ -15,8 +15,12 @@ from typing import Tuple, Optional, List, Dict
 import chess
 import torch
 
-from representation import board_to_tensor, move_to_index
-from model import ChessGladiatorNet
+try:
+    from .representation import board_to_tensor, move_to_index
+    from .model import ChessGladiatorNet
+except ImportError:
+    from representation import board_to_tensor, move_to_index
+    from model import ChessGladiatorNet
 
 
 PIECE_VALUES = {

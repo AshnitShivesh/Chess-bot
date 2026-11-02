@@ -11,8 +11,10 @@ venv/
 # Model checkpoints & training logs
 *.pt
 *.pth
+!weights/champion.pt
 !champion.pt
 training_log.json
+training/training_log.json
 
 # Scratch & temp testing files
 scratch/

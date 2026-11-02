@@ -18,8 +18,8 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 import chess
 import torch
 
-from model import ChessGladiatorNet
-from search import search_best_move
+from src.model import ChessGladiatorNet
+from src.search import search_best_move
 
 
 PORT = 8000
@@ -27,7 +27,9 @@ WEB_DIR = os.path.join(os.path.dirname(__file__), "web")
 
 # Load model once at startup
 MODEL = ChessGladiatorNet()
-CHAMP_PATH = os.path.join(os.path.dirname(__file__), "champion.pt")
+CHAMP_PATH = os.path.join(os.path.dirname(__file__), "weights", "champion.pt")
+if not os.path.exists(CHAMP_PATH):
+    CHAMP_PATH = os.path.join(os.path.dirname(__file__), "champion.pt")
 MODEL_LOADED = False
 
 if os.path.exists(CHAMP_PATH):
