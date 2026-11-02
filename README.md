@@ -123,7 +123,8 @@ python server.py
 Open **[http://localhost:8000](http://localhost:8000)** in any browser.
 
 **Web Features:**
-- **Retro Arcade Aesthetic**: CRT scanline filter, responsive pixel-art vector pieces (no external image downloads needed), and retro typography.
+- **Retro Arcade Aesthetic**: Authentic pixel-art vector pieces (no external image downloads needed), CRT scanline effect, and utilitarian indie UI.
+- **Real-Time Training Visualizer**: Launch self-play reinforcement learning sessions directly in the browser; watch games play out move-by-move on the board while tracking the live PyTorch loss curve on an integrated pixel chart.
 - **8-Bit Web Audio SFX**: Real-time sound effects generated via Web Audio API oscillators (move blip, capture crunch, check alert, victory fanfare).
 - **Live Evaluation Gauge**: Vertical real-time advantage bar and score calculated by the neural network's Value Head and Alpha-Beta search.
 - **Multiple Modes**: Play against AI (as White or Black with automatic board orientation), spectate AI Auto-play, or analyze in Free Play mode.
