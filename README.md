@@ -92,16 +92,11 @@ chess-neural-network/
 │   └── arena.py                 # Tournament matchmaking & survival selection
 ├── weights/                     # Pre-trained model weights
 │   └── champion.pt              # 99.6% trained neural network weights
-├── web/                         # Interactive retro-arcade frontend
-│   ├── index.html               # Semantic arcade layout & CRT scanline overlay
-│   ├── style.css                # Pixel-art CSS styling
-│   └── app.js                   # Interactive board, 8-bit Web Audio synth, offline AI
 ├── tests/                       # Verification & benchmarks
 │   ├── __init__.py
 │   ├── test_all.py              # Full unit test suite (7 tests)
 │   └── benchmark.py             # Tactical puzzle benchmark suite (checkmates, forks, defense)
 ├── play.py                      # CLI game entrypoint (Human vs AI, AI vs AI)
-├── server.py                    # Web GUI server entrypoint (Zero-dependency HTTP server)
 ├── requirements.txt             # Minimal pip requirements (torch, python-chess, numpy)
 └── README.md                    # Project documentation & architecture guide
 ```
@@ -115,37 +110,42 @@ chess-neural-network/
 pip install -r requirements.txt
 ```
 
-### 1. Interactive Pixel Web GUI (Browser)
-Run the local lightweight server:
-```bash
-python server.py
-```
-Open **[http://localhost:8000](http://localhost:8000)** in any browser.
-
-**Web Features:**
-- **Retro Arcade Aesthetic**: Authentic pixel-art vector pieces (no external image downloads needed), CRT scanline effect, and utilitarian indie UI.
-- **Real-Time Training Visualizer**: Launch self-play reinforcement learning sessions directly in the browser; watch games play out move-by-move on the board while tracking the live PyTorch loss curve on an integrated pixel chart.
-- **8-Bit Web Audio SFX**: Real-time sound effects generated via Web Audio API oscillators (move blip, capture crunch, check alert, victory fanfare).
-- **Live Evaluation Gauge**: Vertical real-time advantage bar and score calculated by the neural network's Value Head and Alpha-Beta search.
-- **Multiple Modes**: Play against AI (as White or Black with automatic board orientation), spectate AI Auto-play, or analyze in Free Play mode.
-- **Offline Fallback**: Can also be hosted directly on GitHub Pages—if the Python backend is offline, an integrated browser-based minimax engine activates automatically.
-
-### 2. Play in the Terminal (CLI)
+### 1. Play Against the Engine (CLI)
+Play live as White with search depth 3:
 ```bash
 python play.py --mode human-white --depth 3
 ```
 
-### 3. Run Tactical Benchmarks
+Play live as Black:
+```bash
+python play.py --mode human-black --depth 3
+```
+
+Spectate two AI instances dueling in real-time:
+```bash
+python play.py --mode spectate --depth 3 --speed 0.4
+```
+
+### 2. Run Tactical Benchmarks
+Evaluate the neural network on 5 classic tactical puzzles (back-rank mates, knight forks, hanging queens, defense):
 ```bash
 python tests/benchmark.py --depth 3
 ```
 
-### 4. Run Self-Play Training
+### 3. Run Self-Play Training (AlphaZero RL)
+Train the Value Head and Policy Head through fast self-play simulations:
 ```bash
 python training/train_selfplay.py --iters 30 --games 4
 ```
 
+### 4. Run Policy Gradient Training
+Train raw model weights on legal move distributions via backpropagation:
+```bash
+python training/train_rl.py --steps 500
+```
+
 ### 5. Run Unit Tests
+Run the comprehensive 7-point sanity verification suite:
 ```bash
 python tests/test_all.py
 ```
