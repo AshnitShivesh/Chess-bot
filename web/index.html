@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Chess // Neural Network Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Retro CRT Scanline Overlay -->
+  <div class="crt-overlay"></div>
+
+  <div class="arcade-cabinet">
+    <!-- Header -->
+    <header class="retro-header">
+      <div class="logo-area">
+        <span class="pixel-icon">♟</span>
+        <h1 class="glitch-text" data-text="CHESS.NET">CHESS.NET</h1>
+      </div>
+      <div class="badge-cluster">
+        <span class="badge online-badge"><span class="blink-dot"></span> NEURAL ENGINE</span>
+        <span class="badge depth-badge">ALPHA-BETA V2</span>
+        <span class="badge mask-badge">100% LEGAL</span>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="game-layout">
+      <!-- Left: Eval Bar -->
+      <section class="eval-column">
+        <div class="eval-label">EVAL</div>
+        <div class="eval-gauge-container">
+          <div class="eval-gauge">
+            <div id="evalBarWhite" class="eval-bar-white" style="height: 50%;"></div>
+            <div class="eval-center-line"></div>
+          </div>
+        </div>
+        <div id="evalScoreText" class="eval-score-text">+0.0</div>
+      </section>
+
+      <!-- Center: Chessboard Container -->
+      <section class="board-column">
+        <div class="board-frame">
+          <!-- File labels top -->
+          <div class="coords-files top-coords">
+            <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span>
+          </div>
+
+          <div class="board-middle-row">
+            <!-- Rank labels left -->
+            <div class="coords-ranks left-coords">
+              <span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+            </div>
+
+            <!-- The 8x8 Board -->
+            <div id="chessboard" class="pixel-board"></div>
+
+            <!-- Rank labels right -->
+            <div class="coords-ranks right-coords">
+              <span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
+            </div>
+          </div>
+
+          <!-- File labels bottom -->
+          <div class="coords-files bottom-coords">
+            <span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span>
+          </div>
+        </div>
+
+        <!-- Status Marquee Banner -->
+        <div class="status-marquee">
+          <span class="prompt-symbol">&gt;</span>
+          <span id="statusMessage">WHITE TO MOVE. SELECT A PIECE.</span>
+        </div>
+      </section>
+
+      <!-- Right: Control Panel & Move Log -->
+      <aside class="control-column">
+        <!-- Control Card -->
+        <div class="pixel-card">
+          <h2 class="card-title">CONTROLS</h2>
+
+          <div class="control-group">
+            <label class="control-label">MODE</label>
+            <div class="btn-group">
+              <button id="btnModeHuman" class="retro-btn active">VS AI</button>
+              <button id="btnModeAuto" class="retro-btn">AI AUTO</button>
+              <button id="btnModeFree" class="retro-btn">FREE</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">YOU PLAY AS</label>
+            <div class="btn-group">
+              <button id="btnColorWhite" class="retro-btn active">WHITE</button>
+              <button id="btnColorBlack" class="retro-btn">BLACK</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">SEARCH DEPTH</label>
+            <div class="depth-selector">
+              <button class="depth-btn" data-depth="1">1</button>
+              <button class="depth-btn" data-depth="2">2</button>
+              <button class="depth-btn active" data-depth="3">3</button>
+              <button class="depth-btn" data-depth="4">4</button>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button id="btnAiMove" class="retro-btn action-btn primary-btn">► AI MOVE</button>
+            <button id="btnReset" class="retro-btn action-btn">RESET</button>
+            <button id="btnUndo" class="retro-btn action-btn">UNDO</button>
+          </div>
+
+          <div class="sound-toggle-row">
+            <span>8-BIT SFX</span>
+            <button id="btnSoundToggle" class="sound-btn on">ON</button>
+          </div>
+        </div>
+
+        <!-- Move History Terminal -->
+        <div class="pixel-card terminal-card">
+          <h2 class="card-title">MOVE LOG</h2>
+          <div id="moveLogList" class="move-log-box">
+            <div class="log-placeholder">Game started. Ready.</div>
+          </div>
+        </div>
+
+        <!-- Telemetry Stats -->
+        <div class="pixel-card stats-card">
+          <div class="stat-row">
+            <span>NODES:</span>
+            <span id="statNodes" class="stat-val">0</span>
+          </div>
+          <div class="stat-row">
+            <span>CALC TIME:</span>
+            <span id="statTime" class="stat-val">0.00s</span>
+          </div>
+          <div class="stat-row">
+            <span>LEGALITY:</span>
+            <span class="stat-val highlight-val">100.0%</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
